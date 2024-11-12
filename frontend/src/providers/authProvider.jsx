@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { createContext, userContext, useEffect, useMemo, useState, useContext } from 'react';
+import {
+    createContext,
+    userContext,
+    useEffect,
+    useMemo,
+    useState,
+    useContext,
+} from 'react';
 
 const AuthContext = createContext();
 
@@ -8,7 +15,7 @@ const AuthProvider = ({ children }) => {
 
     const setToken = (newToken) => {
         setToken_(newToken);
-    }
+    };
 
     useEffect(() => {
         if (token) {
@@ -20,17 +27,17 @@ const AuthProvider = ({ children }) => {
         }
     }, [token]);
 
-    const contextValue = useMemo(() => (
-        { token, setToken }
-    ), [token]);
+    const contextValue = useMemo(() => ({ token, setToken }), [token]);
 
     return (
-        <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-    )
-}
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
 
 export const useAuth = () => {
     return useContext(AuthContext);
-}
+};
 
 export default AuthProvider;

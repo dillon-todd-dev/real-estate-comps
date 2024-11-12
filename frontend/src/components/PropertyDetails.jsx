@@ -1,7 +1,5 @@
 const PropertyDetails = () => {
-  return (
-    <div>PropertyDetails</div>
-  )
-}
+    return <div>PropertyDetails</div>;
+};
 
-export default PropertyDetails
+export default PropertyDetails;
