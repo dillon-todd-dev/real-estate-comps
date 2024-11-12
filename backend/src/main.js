@@ -4,11 +4,10 @@ const { config } = require('dotenv');
 config();
 
 const initApp = async () => {
-    const closeMongoConnection = () => {
+    const closeMongoConnection = async () => {
         if (app.db) {
-            app.db.close(true).then(() => {
-                process.exit(0);
-            })
+            await app.db.close(true);
+            process.exit(0);
         } else {
             process.exit(0);
         }
