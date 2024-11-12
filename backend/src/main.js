@@ -3,7 +3,7 @@ const { config } = require('dotenv');
 
 config();
 
-const initApp = () => {
+const initApp = async () => {
     const closeMongoConnection = () => {
         if (app.db) {
             app.db.close(true).then(() => {
@@ -19,14 +19,13 @@ const initApp = () => {
         const { MongoClient } = require('mongodb');
         const mongoUrl = process.env.MONGO_URL;
 
-        MongoClient.connect(mongoUrl).then((db) => {
-            app.db = db;
+        const db = await MongoClient.connect(mongoUrl);
+        app.db = db;
 
-            const server = require('./server');
-            const PORT = process.env.PORT || 3000;
+        const server = require('./server');
+        const PORT = process.env.PORT || 3000;
 
-            server.listen(PORT, () => console.log(`server listening on port: ${PORT}`));
-        })
+        server.listen(PORT, () => console.log(`server listening on port: ${PORT}`));
     } catch (err) {
         console.error(`Error starting up: ${err}`);
         process.exit(-2);
