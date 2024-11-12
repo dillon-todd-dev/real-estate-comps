@@ -24,6 +24,10 @@ const Routes = () => {
                     element: <Properties />,
                 },
                 {
+                    path: '/account',
+                    element: <div>Account</div>,
+                },
+                {
                     path: '/logout',
                     element: <div>Logout</div>,
                 },
