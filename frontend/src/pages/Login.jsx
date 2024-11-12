@@ -1,10 +1,12 @@
 import { Box, Button, Link, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../providers/authProvider";
 
-const LoginForm = () => {
+const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: ''});
     const [errors, setErrors] = useState({ email: '', password: '' });
+    const { setToken } = useAuth();
     const navigate = useNavigate();
 
     const validateForm = () => {
@@ -29,7 +31,10 @@ const LoginForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            navigate('/properties');
+            if (formData.email === 'dillontodd10@gmail.com') {
+                setToken('this is a test token');
+                navigate('/properties', { replace: true });
+            }
         }
     };
 
@@ -98,4 +103,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+export default Login;
