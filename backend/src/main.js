@@ -18,7 +18,11 @@ const initApp = async () => {
         const { MongoClient } = require('mongodb');
         const mongoUrl = process.env.MONGO_URL;
 
-        const db = await MongoClient.connect(mongoUrl);
+        const client = new MongoClient(mongoUrl);
+        const db = client.db('comps');
+
+        console.log('successfully connected to mongodb');
+        
         app.db = db;
 
         const server = require('./server');
