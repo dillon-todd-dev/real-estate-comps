@@ -1,4 +1,5 @@
 const app = require('../app');
+const auth = require('../auth');
 const bcrypt = require('bcryptjs');
 
 const findUserByEmail = async (email) => {
@@ -13,7 +14,9 @@ const getUsers = async () => {
 const registerUser = async (userData) => {
     const { email, password, firstName, lastName } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await app.db.collection('users').insertOne({ email, password: hashedPassword, firstName, lastName });
+    const user = await app.db.collection('users').insertOne({ email, password: hashedPassword, firstName, lastName });
+    const token = auth.generateAccessToken(email);
+    return { user, token };
 }
 
 const loginUser = async (userData) => {
@@ -31,7 +34,8 @@ const loginUser = async (userData) => {
         return null;
     }
 
-    return user;
+    const token = auth.generateAccessToken(email);
+    return { user, token };
 }
 
 module.exports = {
