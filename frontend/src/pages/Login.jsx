@@ -2,12 +2,15 @@ import { Box, Button, Link, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/authProvider';
+import axios from 'axios';
+import { useAlert } from '../providers/alertProvider';
 
 const Login = () => {
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [errors, setErrors] = useState({ email: '', password: '' });
     const { setToken } = useAuth();
     const navigate = useNavigate();
+    const showAlert = useAlert();
 
     const validateForm = () => {
         let valid = true;
@@ -32,10 +35,20 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            if (formData.email === 'dillontodd10@gmail.com') {
-                setToken('this is a test token');
-                navigate('/properties', { replace: true });
-            }
+            axios.post('http://localhost:3000/login', {
+                email: formData.email,
+                password: formData.password
+            }).then((res) => {
+                if (res.status === 200) {
+                    showAlert(`Welcome ${res.data.user.firstName}`, 'success');
+                    setToken(res.data.token);
+                    navigate('/properties');
+                } else {
+                    showAlert('Unable to login', 'error');
+                }
+            }).catch((err) => {
+                console.log(err);
+            })
         }
     };
 
@@ -94,11 +107,6 @@ const Login = () => {
                 <Link href="#" variant="body2">
                     Forgot Password
                 </Link>
-                <Box mt={1}>
-                    <Link href="/signup" variant="body2">
-                        Don't have an account? Sign Up
-                    </Link>
-                </Box>
             </Box>
         </Box>
     );

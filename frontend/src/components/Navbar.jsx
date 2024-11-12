@@ -5,6 +5,7 @@ import {
     Button,
     Container,
     IconButton,
+    Link,
     Menu,
     MenuItem,
     Toolbar,
@@ -13,21 +14,26 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useAuth } from '../providers/authProvider';
-import { useNavigate } from 'react-router-dom';
+import { useAlert } from '../providers/alertProvider';
 
 const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = useState(null);
-    const navigate = useNavigate();
-    const { token } = useAuth();
+    const { setToken } = useAuth();
+    const showAlert = useAlert();
 
     const handleOpenUserMenu = (e) => {
         setAnchorElUser(e.currentTarget);
     };
 
-    const handleCloseUserMenu = (e) => {
+    const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-        console.log(e.currentTarget);
     };
+
+    const handleLogout = () => {
+        showAlert('Goodbye', 'success');
+        setAnchorElUser(null);
+        setToken(null);
+    }
 
     return (
         <AppBar position="static">
@@ -92,11 +98,13 @@ const Navbar = () => {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography sx={{ textAlign: 'center' }}>
-                                    Account
-                                </Typography>
+                                <Link href='/settings' variant='body2' underline='none' color='inherit'>
+                                    <Typography sx={{ textAlign: 'center' }}>
+                                        Settings
+                                    </Typography>
+                                </Link>
                             </MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={handleLogout}>
                                 <Typography sx={{ textAlign: 'center' }}>
                                     Logout
                                 </Typography>

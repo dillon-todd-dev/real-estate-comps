@@ -2,9 +2,11 @@ const express = require('express');
 const usersRouter = require('./api/users');
 const usersService = require('./services/usersService');
 const auth = require('./auth');
+const cors = require('cors');
 
 const server = express();
 
+server.use(cors());
 server.use(express.json());
 
 server.use('/api', auth.verifyAccessToken);

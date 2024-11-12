@@ -1,8 +1,9 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { useAuth } from '../providers/authProvider';
 import { ProtectedRoute } from './ProtectedRoute';
-import Properties from '../components/Properties';
+import Properties from '../pages/Properties';
 import Login from '../pages/Login';
+import Settings from '../pages/Settings';
 
 const Routes = () => {
     const { token } = useAuth();
@@ -24,8 +25,8 @@ const Routes = () => {
                     element: <Properties />,
                 },
                 {
-                    path: '/account',
-                    element: <div>Account</div>,
+                    path: '/settings',
+                    element: <Settings />,
                 },
                 {
                     path: '/logout',
