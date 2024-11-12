@@ -1,9 +1,11 @@
 import { Box, Button, Link, TextField } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
     const [formData, setFormData] = useState({ email: '', password: ''});
     const [errors, setErrors] = useState({ email: '', password: '' });
+    const navigate = useNavigate();
 
     const validateForm = () => {
         let valid = true;
@@ -27,9 +29,7 @@ const LoginForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validateForm()) {
-            console.log('success');
-        } else {
-            console.log('failed');
+            navigate('/valid');
         }
     };
 
