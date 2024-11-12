@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import LoginForm from './components/LoginForm.jsx'
 import Properties from './components/Properties.jsx'
-import PropertyDetails from './components/PropertyDetails.jsx'
 
 const router = createBrowserRouter([
   {
