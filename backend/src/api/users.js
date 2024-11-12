@@ -4,9 +4,9 @@ const usersService = require('../services/usersService');
 const router = Router();
 
 // GET /api/users/currentUserId
-router.get('/currentUserId', (req, res) => {
+router.get('/currentUser', (req, res) => {
     const user = req.user;
-    res.send(user ? user._id : '');
+    res.send(user);
 });
 
 // GET /api/users
