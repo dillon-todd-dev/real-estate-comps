@@ -1,54 +1,56 @@
-import axios from "axios";
-import { createContext, useMemo, useContext, useReducer } from "react";
+import axios from 'axios';
+import { createContext, useMemo, useContext, useReducer } from 'react';
 
 const AuthContext = createContext();
 
 const ACTIONS = {
-  setToken: "setToken",
-  clearToken: "clearToken",
+    setToken: 'setToken',
+    clearToken: 'clearToken',
 };
 
 const authReducer = (state, action) => {
-  switch (action.type) {
-    case ACTIONS.setToken:
-      axios.defaults.headers.common["Authorization"] =
-        `Bearer ${action.payload}`;
-      localStorage.setItem("token", action.payload);
-      return { ...state, token: action.payload };
-    case ACTIONS.clearToken:
-      delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem("token");
-      return { ...state, token: null };
-    default:
-      console.error("action doesn't exist");
-  }
+    switch (action.type) {
+        case ACTIONS.setToken:
+            axios.defaults.headers.common['Authorization'] =
+                `Bearer ${action.payload}`;
+            localStorage.setItem('token', action.payload);
+            return { ...state, token: action.payload };
+        case ACTIONS.clearToken:
+            delete axios.defaults.headers.common['Authorization'];
+            localStorage.removeItem('token');
+            return { ...state, token: null };
+        default:
+            console.error("action doesn't exist");
+    }
 };
 
-const initalData = { token: localStorage.getItem("token") };
+const initalData = { token: localStorage.getItem('token') };
 
 const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initalData);
+    const [state, dispatch] = useReducer(authReducer, initalData);
 
-  const setToken = (newToken) => {
-    dispatch({ type: ACTIONS.setToken, payload: newToken });
-  };
+    const setToken = (newToken) => {
+        dispatch({ type: ACTIONS.setToken, payload: newToken });
+    };
 
-  const clearToken = () => {
-    dispatch({ type: ACTIONS.clearToken });
-  };
+    const clearToken = () => {
+        dispatch({ type: ACTIONS.clearToken });
+    };
 
-  const contextValue = useMemo(
-    () => ({ ...state, setToken, clearToken }),
-    [state],
-  );
+    const contextValue = useMemo(
+        () => ({ ...state, setToken, clearToken }),
+        [state]
+    );
 
-  return (
-    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+    return useContext(AuthContext);
 };
 
 export default AuthProvider;

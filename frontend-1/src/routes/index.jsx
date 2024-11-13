@@ -1,48 +1,48 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "../providers/authProvider";
-import { ProtectedRoute } from "./ProtectedRoute";
-import Properties from "../pages/Properties";
-import Login from "../pages/Login";
-import Settings from "../pages/Settings";
-import ResetPassword from "../pages/ResetPassword";
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { useAuth } from '../providers/authProvider';
+import { ProtectedRoute } from './ProtectedRoute';
+import Properties from '../pages/Properties';
+import Login from '../pages/Login';
+import Settings from '../pages/Settings';
+import ResetPassword from '../pages/ResetPassword';
 
 const Routes = () => {
-  const { token } = useAuth();
+    const { token } = useAuth();
 
-  const routesForNotAuthenticatedOnly = [
-    {
-      path: "/login",
-      element: <Login />,
-    },
-    {
-        path: '/reset-password',
-        element: <ResetPassword />
-    }
-  ];
-
-  const routesForAuthenticatedOnly = [
-    {
-      path: "/",
-      element: <ProtectedRoute />,
-      children: [
+    const routesForNotAuthenticatedOnly = [
         {
-          path: "/properties",
-          element: <Properties />,
+            path: '/login',
+            element: <Login />,
         },
         {
-          path: "/settings",
-          element: <Settings />,
+            path: '/reset-password',
+            element: <ResetPassword />,
         },
-      ],
-    },
-  ];
+    ];
 
-  const router = createBrowserRouter([
-    ...(!token ? routesForNotAuthenticatedOnly : []),
-    ...routesForAuthenticatedOnly,
-  ]);
+    const routesForAuthenticatedOnly = [
+        {
+            path: '/',
+            element: <ProtectedRoute />,
+            children: [
+                {
+                    path: '/properties',
+                    element: <Properties />,
+                },
+                {
+                    path: '/settings',
+                    element: <Settings />,
+                },
+            ],
+        },
+    ];
 
-  return <RouterProvider router={router} />;
+    const router = createBrowserRouter([
+        ...(!token ? routesForNotAuthenticatedOnly : []),
+        ...routesForAuthenticatedOnly,
+    ]);
+
+    return <RouterProvider router={router} />;
 };
 
 export default Routes;
