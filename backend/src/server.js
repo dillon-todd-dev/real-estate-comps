@@ -15,7 +15,7 @@ server.use('/api/users', usersRouter);
 server.post('/login', async (req, res) => {
     const { user, token } = await usersService.loginUser(req.body);
     if (!user) {
-        res.status(403).json({ error: 'Forbidden' });
+        return res.status(403).json({ error: 'Forbidden' });
     }
     res.status(200).json({ user, token });
 });

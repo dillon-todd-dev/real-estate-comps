@@ -23,7 +23,8 @@ const loginUser = async (userData) => {
     const { email, password } = userData;
     const user = await findUserByEmail(email);
     if (!user) {
-        return null;
+        console.log(`no user with email: ${email}`);
+        return {};
     }
 
     console.log(user);
@@ -31,7 +32,8 @@ const loginUser = async (userData) => {
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
     if (!passwordsMatch) {
-        return null;
+        console.log('passwords do not match');
+        return {};
     }
 
     const token = auth.generateAccessToken(email);
