@@ -43,5 +43,6 @@ const loginUser = async (userData) => {
 module.exports = {
     getUsers,
     registerUser,
-    loginUser
+    loginUser,
+    findUserByEmail
 }
