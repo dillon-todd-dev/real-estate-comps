@@ -17,7 +17,9 @@ export const accountUpdateSchema = z.object({
     .string()
     .min(1, { message: 'Email is required' })
     .email('Invalid email address'),
-  password: z.optional(
-    z.string().min(6, { message: 'Password must be at least 6 characters ' })
-  )
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters ' })
+    .optional()
+    .or(z.literal(''))
 });

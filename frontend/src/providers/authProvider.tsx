@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useContext, createContext, useMemo, useReducer } from 'react';
 
 type AuthContextType = {
-  token: string | null,
-  setToken: (newToken: string) => void,
-  clearToken: () => void
-}
+  token: string | null;
+  setToken: (newToken: string) => void;
+  clearToken: () => void;
+};
 
 const AuthContext = createContext<AuthContextType | null>(null);
 

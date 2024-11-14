@@ -28,17 +28,7 @@ const Routes = () => {
         },
         {
           path: '/settings',
-          element: <Settings />,
-          children: [
-            {
-              path: '/settings/account',
-              element: <Account />
-            },
-            {
-              path: '/settings/preferences',
-              element: <Preferences />
-            }
-          ]
+          element: <Settings />
         }
       ]
     }

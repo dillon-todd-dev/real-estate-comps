@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-import { getCurrentUser } from '@/services';
+import { getCurrentUser, updateUser } from '@/services';
 
 const Account = () => {
   const { token } = useAuth();
@@ -27,19 +27,27 @@ const Account = () => {
     }
   });
 
-  const onSubmit = (values: z.infer<typeof accountUpdateSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof accountUpdateSchema>) => {
+    const res = await updateUser(values, token);
+    if (res.success) {
+      console.log('updated user');
+    } else {
+      console.log('could not update user');
+    }
   };
 
   return (
-    <div className="grid gap-6">
+    <div className="grid gap-6 m-2">
       <Card>
         <CardHeader>
           <CardTitle>Account</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4"
+            >
               <FormField
                 control={form.control}
                 name="firstName"
@@ -96,7 +104,9 @@ const Account = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Save</Button>
+              <Button type="submit" className="md:col-span-2 lg:col-span-2">
+                Save
+              </Button>
             </form>
           </Form>
         </CardContent>

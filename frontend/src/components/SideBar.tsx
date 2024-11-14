@@ -69,7 +69,7 @@ const SideBar = () => {
               className="w-[--radix-popper-anchor-width]"
             >
               <DropdownMenuItem
-                onClick={() => navigate('/settings/account', { replace: true })}
+                onClick={() => navigate('/settings', { replace: true })}
               >
                 <Settings />
                 <span>Settings</span>
