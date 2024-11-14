@@ -5,66 +5,42 @@ import {
   CardDescription,
   CardContent
 } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { FormEvent, useState } from 'react';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
 import { useAuth } from '@/providers/authProvider';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '@/schemas';
+import { Button } from '@/components/ui/button';
+import { loginUser } from '@/services';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
-  const validateForm = () => {
-    let valid = true;
-    console.log(formData);
-
-    if (!formData.email) {
-      valid = false;
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: ''
     }
+  });
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
-    if (!formData.password || !passwordRegex.test(formData.password)) {
-      valid = false;
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    const res = await loginUser(values.email, values.password);
+    if (res.success) {
+      setToken(res.token);
+      navigate('/properties');
     }
-
-    return valid;
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log('making login request');
-      axios
-        .post('http://localhost:3000/login', {
-          email: formData.email,
-          password: formData.password
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            setToken(res.data.token);
-            navigate('/properties');
-          } else {
-            console.log('bad data');
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      console.log('invalid data');
-    }
-  };
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
   };
 
   return (
@@ -77,33 +53,41 @@ const Login = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
                 name="email"
-                type="email"
-                placeholder="m@example.com"
-                onChange={handleChange}
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="JohnDoe@example.com"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+              <FormField
+                control={form.control}
                 name="password"
-                type="password"
-                placeholder="*********"
-                onChange={handleChange}
-                required
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="******" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            <Button type="submit" className="w-full" onClick={handleSubmit}>
-              Login
-            </Button>
-          </form>
+              <Button type="submit">Login</Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>

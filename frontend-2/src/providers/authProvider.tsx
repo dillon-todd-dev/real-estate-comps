@@ -1,7 +1,13 @@
 import axios from 'axios';
 import { useContext, createContext, useMemo, useReducer } from 'react';
 
-const AuthContext = createContext();
+type AuthContextType = {
+  token: string | null,
+  setToken: (newToken: string) => void,
+  clearToken: () => void
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
 
 const ACTIONS = {
   setToken: 'setToken',
@@ -47,7 +53,7 @@ const AuthProvider = ({ children }: any) => {
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  return useContext(AuthContext) as AuthContextType;
 };
 
 export default AuthProvider;

@@ -19,7 +19,7 @@ import { Home, Settings, ChevronUp, LogOut } from 'lucide-react';
 import { useAuth } from '@/providers/authProvider';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getCurrentUser } from '@/services';
 
 const SideBar = () => {
   const [user, setUser] = useState({ firstName: '', lastName: '' });
@@ -27,17 +27,11 @@ const SideBar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/users/currentUser', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }).then((res) => {
-      if (res.status === 200) {
-        setUser({ firstName: res.data.firstName, lastName: res.data.lastName });
-      }
-    }).catch((err) => {
-      console.log(err);
-    })
+    const getUser = async () => {
+      const { firstName, lastName } = await getCurrentUser(token);
+      setUser({ firstName, lastName });
+    };
+    getUser();
   }, []);
 
   return (
@@ -64,7 +58,9 @@ const SideBar = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton>
-                <span>{user.firstName} {user.lastName}</span>
+                <span>
+                  {user.firstName} {user.lastName}
+                </span>
                 <ChevronUp className="ml-auto" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
