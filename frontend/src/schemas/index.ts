@@ -23,3 +23,10 @@ export const accountUpdateSchema = z.object({
     .optional()
     .or(z.literal(''))
 });
+
+export const newPropertyAddressForm = z.object({
+  address: z.string().min(1, { message: 'Address is required' }),
+  city: z.string().min(1, { message: 'City is required' }),
+  state: z.string(),
+  zipcode: z.number().min(5, { message: 'Invalid zip code' }).max(5, {message: 'Invalid zip code' })
+})

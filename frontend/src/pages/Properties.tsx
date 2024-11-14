@@ -1,6 +1,11 @@
+import NewProperty from '@/components/NewProperty';
+
 const Properties = () => {
   return (
-    <div className="h-screen flex items-center justify-center">Properties</div>
+    <div>
+      <div>Properties</div>
+      <NewProperty />
+    </div>
   );
 };
 
