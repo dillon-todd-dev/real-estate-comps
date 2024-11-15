@@ -14,9 +14,10 @@ const getUsers = async () => {
 const registerUser = async (userData) => {
     const { email, password, firstName, lastName } = userData;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await app.db.collection('users').insertOne({ email, password: hashedPassword, firstName, lastName });
-    const token = auth.generateAccessToken(email);
-    return { user, token };
+    await app.db.collection('users').insertOne({ email, password: hashedPassword, firstName, lastName });
+    const accessToken = auth.generateAccessToken(email, firstName, lastName);
+    const refreshToken = auth.generateRefreshToken(email, firstName, lastName);
+    return { accessToken, refreshToken };
 }
 
 const loginUser = async (userData) => {
@@ -27,17 +28,15 @@ const loginUser = async (userData) => {
         return {};
     }
 
-    console.log(user);
-    console.log(`found user with email: ${email}`);
-
     const passwordsMatch = await bcrypt.compare(password, user.password);
     if (!passwordsMatch) {
         console.log('passwords do not match');
         return {};
     }
 
-    const token = auth.generateAccessToken(email);
-    return { user, token };
+    const accessToken = auth.generateAccessToken(user.email, user.firstName, user.lastName);
+    const refreshToken = auth.generateRefreshToken(user.email, user.firstName, user.lastName);
+    return { accessToken, refreshToken };
 }
 
 module.exports = {

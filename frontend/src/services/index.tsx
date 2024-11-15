@@ -1,13 +1,24 @@
+import { useAuth } from '@/providers/authProvider';
 import { accountUpdateSchema } from '@/schemas';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { z } from 'zod';
 
 const BASE_URL = 'http://localhost:3000';
+const { clearToken } = useAuth();
+
+const checkResponseCode = (response: AxiosResponse) => {
+  if (response.status === 403) {
+    console.log('JWT token is expired');
+    clearToken();
+  }
+}
 
 export const getCurrentUser = async (token: string | null) => {
   const response = await axios.get(`${BASE_URL}/api/users/currentUser`, {
     headers: { Authorization: `Bearer ${token}` }
   });
+
+  checkResponseCode(response);
 
   const { firstName, lastName, email } = response.data;
 
@@ -35,6 +46,9 @@ export const updateUser = async (
   const response = await axios.patch(`${BASE_URL}/api/users`, data, {
     headers: { Authorization: `Bearer ${token}` }
   });
+
+  checkResponseCode(response);
+
   if (response.status === 200) {
     return { success: true };
   }
