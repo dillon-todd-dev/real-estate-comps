@@ -13,16 +13,16 @@ server.use('/api', auth.verifyAccessToken);
 server.use('/api/users', usersRouter);
 
 server.post('/login', async (req, res) => {
-    const { accessToken, refreshToken } = await usersService.loginUser(req.body);
+    const { accessToken } = await usersService.loginUser(req.body);
     if (!accessToken) {
         return res.status(403).json({ error: 'Forbidden' });
     }
-    res.status(200).json({ accessToken, refreshToken });
+    res.status(200).json({ accessToken });
 });
 
 server.post('/register', async (req, res) => {
-    const { accessToken, refreshToken } = await usersService.registerUser(req.body);
-    res.status(201).json({ accessToken, refreshToken });
+    const { accessToken } = await usersService.registerUser(req.body);
+    res.status(201).json({ accessToken });
 });
 
 server.post('/refresh', async (req, res) => {
