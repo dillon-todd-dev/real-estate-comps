@@ -9,7 +9,14 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { z } from 'zod';
@@ -18,18 +25,18 @@ import { useForm } from 'react-hook-form';
 import { newPropertyAddressForm } from '@/schemas';
 
 const NewProperty = () => {
-    const form = useForm<z.infer<typeof newPropertyAddressForm>>({
-        resolver: zodResolver(newPropertyAddressForm),
-        defaultValues: {
-            address: '',
-            city: '',
-            state: 'TX'
-        }
-    })
-
-    const onSubmit = (values: z.infer<typeof newPropertyAddressForm>) => {
-        console.log(values);
+  const form = useForm<z.infer<typeof newPropertyAddressForm>>({
+    resolver: zodResolver(newPropertyAddressForm),
+    defaultValues: {
+      address: '',
+      city: '',
+      state: 'TX'
     }
+  });
+
+  const onSubmit = (values: z.infer<typeof newPropertyAddressForm>) => {
+    console.log(values);
+  };
 
   return (
     <Dialog>
@@ -55,62 +62,62 @@ const NewProperty = () => {
           </TabsContent>
         </Tabs> */}
         <div>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
-                    <FormField
-                        control={form.control}
-                        name='address'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Address Search</FormLabel>
-                                <FormControl>
-                                    <Input placeholder='Address...' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name='city'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>City</FormLabel>
-                                <FormControl>
-                                    <Input placeholder='City...' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name='state'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>State</FormLabel>
-                                <FormControl>
-                                    <Input placeholder='State...' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name='zipcode'
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Zipcode</FormLabel>
-                                <FormControl>
-                                    <Input placeholder='Zip...' {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </form>
-            </Form>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address Search</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Address..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="City..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>State</FormLabel>
+                    <FormControl>
+                      <Input placeholder="State..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="zipcode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Zipcode</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Zip..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
