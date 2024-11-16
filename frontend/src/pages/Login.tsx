@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
-import { useAuth } from '@/providers/authProvider';
+import { useAuth } from '@/context/authProvider';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';

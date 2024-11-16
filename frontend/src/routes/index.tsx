@@ -1,5 +1,5 @@
 import Login from '@/pages/Login';
-import { useAuth } from '@/providers/authProvider';
+import { useAuth } from '@/context/authProvider';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import Properties from '@/pages/Properties';

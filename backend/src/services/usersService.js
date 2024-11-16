@@ -16,8 +16,8 @@ const registerUser = async (userData) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     await app.db.collection('users').insertOne({ email, password: hashedPassword, firstName, lastName });
     const accessToken = auth.generateAccessToken(email, firstName, lastName);
-    const refreshToken = auth.generateRefreshToken(email, firstName, lastName);
-    return { accessToken, refreshToken };
+    const refreshTokenCookie = auth.generateRefreshToken(email, firstName, lastName);
+    return { accessToken, refreshTokenCookie };
 }
 
 const loginUser = async (userData) => {
@@ -25,18 +25,16 @@ const loginUser = async (userData) => {
     const user = await findUserByEmail(email);
     if (!user) {
         console.log(`no user with email: ${email}`);
-        return {};
+        return null;
     }
 
     const passwordsMatch = await bcrypt.compare(password, user.password);
     if (!passwordsMatch) {
         console.log('passwords do not match');
-        return {};
+        return null;
     }
 
-    const accessToken = auth.generateAccessToken(user.email, user.firstName, user.lastName);
-    const refreshToken = auth.generateRefreshToken(user.email, user.firstName, user.lastName);
-    return { accessToken, refreshToken };
+    return user;
 }
 
 module.exports = {

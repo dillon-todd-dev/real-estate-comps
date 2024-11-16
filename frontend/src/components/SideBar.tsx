@@ -16,7 +16,7 @@ import {
   DropdownMenuItem
 } from '@/components/ui/dropdown-menu';
 import { Home, Settings, ChevronUp, LogOut } from 'lucide-react';
-import { useAuth } from '@/providers/authProvider';
+import { useAuth } from '@/context/authProvider';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getCurrentUser } from '@/services';

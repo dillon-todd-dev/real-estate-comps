@@ -1,14 +1,17 @@
 const jwt = require('jsonwebtoken');
+const { serialize } = require('cookie');
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
-const generateAccessToken = (email, firstName, lastName) => {
-    return jwt.sign({ email, firstName, lastName }, JWT_SECRET, { expiresIn: '1800s' });
+const generateAccessToken = (user) => {
+    const { email, firstName, lastName } = user;
+    return jwt.sign({ email, firstName, lastName }, JWT_SECRET, { expiresIn: '15m' });
 }
 
-const generateRefreshToken = (email, firstName, lastName) => {
-    return jwt.sign({ email }, JWT_REFRESH_SECRET, { expiresIn: '7d'})
+const generateRefreshToken = (user) => {
+    const { email, firstName, lastName } = user;
+    return jwt.sign({ email, firstName, lastName }, JWT_REFRESH_SECRET, { expiresIn: '7d'});
 }
 
 const verifyAccessToken = (req, res, next) => {
@@ -33,10 +36,10 @@ const verifyAccessToken = (req, res, next) => {
 const verifyRefreshToken = (email, refreshToken) => {
     try {
         const decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
-        return decoded.email === email;
+        return decoded.email === email ? decoded : null
     } catch (err) {
         console.log(err);
-        return false;
+        return null;
     }
 }
 

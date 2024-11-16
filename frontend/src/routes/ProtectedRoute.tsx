@@ -1,5 +1,5 @@
 import Dashboard from '@/components/Dashboard';
-import { useAuth } from '@/providers/authProvider';
+import { useAuth } from '@/context/authProvider';
 import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = () => {
