@@ -9,12 +9,12 @@ type EmailParams = {
 };
 
 const getFromEmail = () => {
-    return NODE_ENV === 'development' ? 'onboarding@resend.dev' : EMAIL_SENDER;
-}
+  return NODE_ENV === 'development' ? 'onboarding@resend.dev' : EMAIL_SENDER;
+};
 
 const getToEmail = (to: string) => {
-    return NODE_ENV === 'development' ? 'delivered@resend.dev' : to;
-}
+  return NODE_ENV === 'development' ? 'delivered@resend.dev' : to;
+};
 
 export const sendEmail = async ({ to, subject, text, html }: EmailParams) => {
   return await resend.emails.send({
