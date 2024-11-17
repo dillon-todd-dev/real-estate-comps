@@ -2,6 +2,7 @@ import {
   createAccount,
   loginUser,
   refreshUserAccessToken,
+  verifyEmail,
 } from '../services/auth.service';
 import { asyncHandler } from '../utils/asyncHandler';
 import {
@@ -11,7 +12,11 @@ import {
   setAuthCookies,
 } from '../utils/cookies';
 import { CREATED, OK, UNAUTHORIZED } from '../constants/http';
-import { loginSchema, registerSchema } from './auth.schemas';
+import {
+  loginSchema,
+  registerSchema,
+  verificationCodeSchema,
+} from './auth.schemas';
 import { verifyToken } from '../utils/jwt';
 import SessionModel from '../models/session.model';
 import appAssert from '../utils/appAssert';
@@ -57,9 +62,19 @@ export const refreshHandler = asyncHandler(async (req, res) => {
 
   const { accessToken, newRefreshToken } =
     await refreshUserAccessToken(refreshToken);
+
   if (newRefreshToken) {
     res.cookie('refreshToken', newRefreshToken, getRefreshTokenCookieOptions());
   }
+  res.cookie('accessToken', accessToken, getAccessTokenCookieOptions());
 
-  return res.cookie('accessToken', accessToken, getAccessTokenCookieOptions());
+  return res.status(OK).json({ message: 'access token refreshed ' });
+});
+
+export const verifyEmailHandler = asyncHandler(async (req, res) => {
+  const verificationCode = verificationCodeSchema.parse(req.params.code);
+  const { user } = await verifyEmail(verificationCode);
+  return res
+    .status(OK)
+    .json({ user, message: 'email was successfully verified' });
 });

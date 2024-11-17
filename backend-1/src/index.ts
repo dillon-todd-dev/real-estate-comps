@@ -2,12 +2,13 @@ import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import connectToDatabase from './config/db';
-import { APP_ORIGIN, NODE_ENV, PORT } from './constants/env';
+import { APP_ORIGIN, NODE_ENV, PORT, RESEND_API_KEY } from './constants/env';
 import cookieParser from 'cookie-parser';
 import errorHandler from './middleware/errorHandler';
 import { asyncHandler } from './utils/asyncHandler';
 import authRoutes from './routes/auth.route';
 import { OK } from './constants/http';
+import { Resend } from 'resend';
 
 const app = express();
 

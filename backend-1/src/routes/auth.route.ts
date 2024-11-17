@@ -4,6 +4,7 @@ import {
   logoutHandler,
   refreshHandler,
   registerHandler,
+  verifyEmailHandler,
 } from '../controllers/auth.controller';
 
 const authRoutes = Router();
@@ -19,5 +20,8 @@ authRoutes.get('/logout', logoutHandler);
 
 // GET /auth/refresh
 authRoutes.get('/refresh', refreshHandler);
+
+// GET /auth/email/verify/:code
+authRoutes.get('/email/verify/:code', verifyEmailHandler);
 
 export default authRoutes;

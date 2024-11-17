@@ -1,4 +1,4 @@
 const enum VerificationCodeType {
-  EmailVerification = 'email_verification',
-  PasswordReset = 'password_reset',
+  EmailVerification = 'EMAIL_VERIFICATION',
+  PasswordReset = 'PASSWORD_RESET',
 }
