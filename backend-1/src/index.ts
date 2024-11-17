@@ -9,6 +9,8 @@ import { asyncHandler } from './utils/asyncHandler';
 import authRoutes from './routes/auth.route';
 import { OK } from './constants/http';
 import { Resend } from 'resend';
+import userRoutes from './routes/user.route';
+import authenticate from './middleware/authenticate';
 
 const app = express();
 
@@ -25,6 +27,7 @@ app.get(
 );
 
 app.use('/auth', authRoutes);
+app.use('/users', authenticate, userRoutes);
 
 app.use(errorHandler);
 
