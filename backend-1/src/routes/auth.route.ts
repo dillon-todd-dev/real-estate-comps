@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import {
-  forgotPasswordHandler,
   loginHandler,
   logoutHandler,
   refreshHandler,
   registerHandler,
+  resetPasswordHandler,
+  sendPasswordResetHandler,
   verifyEmailHandler,
 } from '../controllers/auth.controller';
 
@@ -25,6 +26,10 @@ authRoutes.get('/refresh', refreshHandler);
 // GET /auth/email/verify/:code
 authRoutes.get('/email/verify/:code', verifyEmailHandler);
 
-authRoutes.post('/password/forgot', forgotPasswordHandler);
+// POST /auth/password/forgot
+authRoutes.post('/password/forgot', sendPasswordResetHandler);
+
+// POST /auth/password/reset
+authRoutes.post('/password/reset', resetPasswordHandler);
 
 export default authRoutes;

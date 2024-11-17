@@ -2,6 +2,7 @@ import {
   createAccount,
   loginUser,
   refreshUserAccessToken,
+  resetPassword,
   sendPasswordResetEmail,
   verifyEmail,
 } from '../services/auth.service';
@@ -17,6 +18,7 @@ import {
   emailSchema,
   loginSchema,
   registerSchema,
+  resetPasswordSchema,
   verificationCodeSchema,
 } from './auth.schemas';
 import { verifyToken } from '../utils/jwt';
@@ -82,8 +84,7 @@ export const verifyEmailHandler = asyncHandler(async (req, res) => {
     .json({ user, message: 'email was successfully verified' });
 });
 
-export const forgotPasswordHandler = asyncHandler(async (req, res) => {
-  console.log('made it here');
+export const sendPasswordResetHandler = asyncHandler(async (req, res) => {
   const email = emailSchema.parse(req.body.email);
   const userExists = UserModel.exists({ email });
   appAssert(userExists, NOT_FOUND, 'user does not exist');
@@ -91,4 +92,12 @@ export const forgotPasswordHandler = asyncHandler(async (req, res) => {
   await sendPasswordResetEmail(email);
 
   return res.status(OK).json({ message: 'password reset email sent' });
+});
+
+export const resetPasswordHandler = asyncHandler(async (req, res) => {
+  const request = resetPasswordSchema.parse(req.body);
+  await resetPassword(request);
+  return clearAuthCookies(res)
+    .status(OK)
+    .json({ message: 'password successfully reset' });
 });

@@ -1,16 +1,17 @@
 import { z } from 'zod';
 
 export const emailSchema = z.string().email().min(1).max(255);
+export const passwordSchema = z.string().min(6).max(255);
 
 export const loginSchema = z.object({
   email: emailSchema,
-  password: z.string().min(6).max(255),
+  password: passwordSchema,
   userAgent: z.string().optional(),
 });
 
 export const registerSchema = loginSchema
   .extend({
-    confirmPassword: z.string().min(6).max(255),
+    confirmPassword: passwordSchema,
     firstName: z.string().min(1),
     lastName: z.string().min(1),
   })
@@ -20,3 +21,8 @@ export const registerSchema = loginSchema
   });
 
 export const verificationCodeSchema = z.string().min(1).max(24);
+
+export const resetPasswordSchema = z.object({
+  verificationCode: verificationCodeSchema,
+  password: passwordSchema,
+});
