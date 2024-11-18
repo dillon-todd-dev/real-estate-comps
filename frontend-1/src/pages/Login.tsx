@@ -26,7 +26,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors: formErrors },
   } = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -62,15 +62,26 @@ const Login = () => {
           )}
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
-              <FormControl id='email'>
+              <FormControl id='email' isInvalid={!!formErrors.email}>
                 <FormLabel>Email</FormLabel>
-                <Input type='email' autoFocus {...register('email')} />
-                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+                <Input
+                  type='email'
+                  placeholder='JohnDoe@example.com'
+                  autoFocus
+                  {...register('email')}
+                />
+                <FormErrorMessage>{formErrors.email?.message}</FormErrorMessage>
               </FormControl>
-              <FormControl id='password'>
+              <FormControl id='password' isInvalid={!!formErrors.password}>
                 <FormLabel>Password</FormLabel>
-                <Input type='password' {...register('password')} />
-                <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+                <Input
+                  type='password'
+                  placeholder='******'
+                  {...register('password')}
+                />
+                <FormErrorMessage>
+                  {formErrors.password?.message}
+                </FormErrorMessage>
               </FormControl>
 
               <ChakraLink
@@ -81,7 +92,12 @@ const Login = () => {
               >
                 Forgot password?
               </ChakraLink>
-              <Button my={2} isLoading={isPending} type='submit'>
+              <Button
+                type='submit'
+                my={2}
+                isLoading={isPending}
+                isDisabled={!!formErrors.email || !!formErrors.password}
+              >
                 Sign in
               </Button>
               <Text align='center' fontSize='sm' color='text.muted'>
