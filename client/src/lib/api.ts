@@ -19,8 +19,18 @@ type ForgotPasswordParams = {
   email: string;
 };
 
+type ResetPasswordParams = {
+  password: string;
+  confirmPassword: string;
+  verificationCode: string;
+};
+
 export const login = async (data: LoginParams) => {
   return await API.post('/auth/login', data);
+};
+
+export const logout = async () => {
+  return await API.get('/auth/logout');
 };
 
 export const createAccount = async (data: RegisterParams) => {
@@ -31,6 +41,14 @@ export const verifyEmail = async (code: VerifyEmailParams) => {
   return await API.get(`/auth/email/verify/${code}`);
 };
 
-export const forgotPassword = async (data: ForgotPasswordParams) => {
+export const sendPasswordResetEmail = async (data: ForgotPasswordParams) => {
   return await API.post('/auth/password/forgot', data);
+};
+
+export const resetPassword = async (data: ResetPasswordParams) => {
+  return await API.post('/auth/password/reset', data);
+};
+
+export const getCurrentUser = async () => {
+  return await API.get('/users/currentUser');
 };

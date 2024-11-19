@@ -185,43 +185,48 @@ export const verifyEmail = async (code: string) => {
 };
 
 export const sendPasswordResetEmail = async (email: string) => {
-  const user = await UserModel.findOne({ email });
-  appAssert(user, NOT_FOUND, 'user not found');
+  try {
+    const user = await UserModel.findOne({ email });
+    appAssert(user, NOT_FOUND, 'user not found');
 
-  const fiveMinAgo = fiveMinutesAgo();
-  const count = await VerificationCodeModel.countDocuments({
-    userId: user.id,
-    type: VerificationCodeType.PasswordReset,
-    createdAt: { $gt: fiveMinAgo },
-  });
-  appAssert(
-    count <= 1,
-    TOO_MANY_REQUESTS,
-    'too many requests, please try again later',
-  );
+    const fiveMinAgo = fiveMinutesAgo();
+    const count = await VerificationCodeModel.countDocuments({
+      userId: user.id,
+      type: VerificationCodeType.PasswordReset,
+      createdAt: { $gt: fiveMinAgo },
+    });
+    appAssert(
+      count <= 1,
+      TOO_MANY_REQUESTS,
+      'too many requests, please try again later',
+    );
 
-  const expiresAt = oneHourFromNow();
-  const verificationCode = await VerificationCodeModel.create({
-    userId: user._id,
-    type: VerificationCodeType.PasswordReset,
-    expiresAt,
-  });
+    const expiresAt = oneHourFromNow();
+    const verificationCode = await VerificationCodeModel.create({
+      userId: user._id,
+      type: VerificationCodeType.PasswordReset,
+      expiresAt,
+    });
 
-  const url = `${APP_ORIGIN}/password/reset?code=${verificationCode._id}&exp=${expiresAt.getTime()}`;
-  const { data, error } = await sendEmail({
-    to: user.email,
-    ...getPasswordResetTemplate(url, user.firstName),
-  });
-  appAssert(
-    data?.id,
-    INTERNAL_SERVER_ERROR,
-    `${error?.name} - ${error?.message}`,
-  );
+    const url = `${APP_ORIGIN}/password/reset?code=${verificationCode._id}&exp=${expiresAt.getTime()}`;
+    const { data, error } = await sendEmail({
+      to: user.email,
+      ...getPasswordResetTemplate(url, user.firstName),
+    });
+    appAssert(
+      data?.id,
+      INTERNAL_SERVER_ERROR,
+      `${error?.name} - ${error?.message}`,
+    );
 
-  return {
-    url,
-    email: data.id,
-  };
+    return {
+      url,
+      email: data.id,
+    };
+  } catch (error: any) {
+    console.log('SendPasswordResetError:', error.message);
+    return {};
+  }
 };
 
 export const resetPassword = async ({
