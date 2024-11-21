@@ -49,6 +49,17 @@ export const resetPassword = async (data: ResetPasswordParams) => {
   return await API.post('/auth/password/reset', data);
 };
 
-export const getCurrentUser = async () => {
+type User = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+  verified: boolean;
+  __v: number;
+};
+
+export const getCurrentUser = async (): Promise<User> => {
   return await API.get('/users/currentUser');
 };

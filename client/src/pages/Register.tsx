@@ -11,6 +11,7 @@ import {
   Text,
   Link as ChakraLink,
   FormErrorMessage,
+  useToast,
 } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
@@ -22,6 +23,7 @@ import { createAccount } from '../lib/api';
 
 const Register = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const {
     register,
@@ -40,7 +42,16 @@ const Register = () => {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: createAccount,
-    onSuccess: () => navigate('/', { replace: true }),
+    onSuccess: () => {
+      navigate('/', { replace: true });
+      toast({
+        title: 'Account created successfully!',
+        description: 'Check your email for a confirmation link.',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    },
   });
 
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
