@@ -1,6 +1,3 @@
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
@@ -9,23 +6,37 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { useMutation } from '@tanstack/react-query';
-import { login } from '@/lib/api';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useMutation } from '@tanstack/react-query';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { login } from '@/lib/api';
+import { Link, useNavigate } from 'react-router-dom';
+
+// Improved schema with additional validation rules
+const formSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters long' })
+    .regex(/[a-zA-Z0-9]/, { message: 'Password must be alphanumeric' }),
+});
 
 const Login = () => {
-  const loginSchema = z.object({
-    email: z.string().email().min(1, { message: 'Email is required' }).max(255),
-    password: z
-      .string()
-      .min(6, { message: 'Password must be at least 6 characters' })
-      .max(255),
-  });
+  const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -38,31 +49,45 @@ const Login = () => {
     isError,
   } = useMutation({
     mutationFn: login,
+    onSuccess: () => {
+      toast.success('Login successful');
+      navigate('/settings', { replace: true });
+    },
   });
 
-  const onSubmit = (data: z.infer<typeof loginSchema>) => {
-    signIn(data);
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    signIn(values);
   };
 
   return (
-    <div className='flex h-screen w-full justify-center items-center px-4'>
-      <div className='mx-auto max-w-lg py-12 px-6'>
-        <p className='text-4xl mb-8'>Sign into your account</p>
-        <Card>
-          <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className='space-y-4'
-              >
+    <div className='flex flex-col h-screen w-full items-center justify-center px-4'>
+      <Card className='mx-auto min-w-md'>
+        <CardHeader>
+          <CardTitle className='text-2xl text-center'>
+            Sign into your account
+          </CardTitle>
+          <CardDescription>
+            Enter your email and password to login to your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+              <div className='grid gap-4'>
                 <FormField
                   control={form.control}
                   name='email'
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
+                    <FormItem className='grid gap-2'>
+                      <FormLabel htmlFor='email'>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder='JohnDoe@example.com' {...field} />
+                        <Input
+                          id='email'
+                          placeholder='johndoe@mail.com'
+                          type='email'
+                          autoComplete='email'
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -72,58 +97,41 @@ const Login = () => {
                   control={form.control}
                   name='password'
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
+                    <FormItem className='grid gap-2'>
+                      <FormLabel htmlFor='password'>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder='******' {...field} />
+                        <Input
+                          id='password'
+                          type='password'
+                          placeholder='******'
+                          autoComplete='current-password'
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type='submit' disabled={isError}>
-                  Sign in
+                <Link
+                  to='/password/forgot'
+                  className='ml-auto inline-block text-sm underline'
+                >
+                  Forgot your password?
+                </Link>
+                <Button type='submit' className='w-full'>
+                  Login
                 </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-        {/* <div className='rounded-lg shadow-lg p-8 bg-gray-900'>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder='JohnDoe@example.com' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='password'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input placeholder='******' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type='submit' disabled={isError}>
-                Sign in
-              </Button>
+              </div>
             </form>
           </Form>
-        </div> */}
-      </div>
+          <div className='mt-4 text-center text-sm'>
+            Don&apos;t have an account?{' '}
+            <Link to='/register' className='underline'>
+              Sign up
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
