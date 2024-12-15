@@ -1,12 +1,15 @@
-import Landing from '@/components/landing';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className='w-full h-full'>
-      <div className='flex justify-center w-full bg-blue-300'>
-        <div className='text-4xl'>REAL ESTATE EVALUATIONS</div>
-      </div>
-      <Landing />
-    </div>
+    <main className='flex flex-col justify-center gap-6 text-center min-h-screen max-w-5xl mx-auto'>
+      <h1 className='text-5xl font-bold'>Real Estate Evaluations</h1>
+      <p>
+        <Button asChild>
+          <Link href='/dashboard'>Get Started</Link>
+        </Button>
+      </p>
+    </main>
   );
 }
