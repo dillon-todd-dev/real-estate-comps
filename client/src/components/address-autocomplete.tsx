@@ -19,6 +19,7 @@ import { autocomplete } from '@/lib/google';
 import { PlaceAutocompleteResult } from '@googlemaps/google-maps-services-js';
 import React, { useEffect, useState } from 'react';
 import { ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type AddressAutoCompleteProps = {
   setAddress: (address: string) => any;
