@@ -6,12 +6,9 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { CirclePlus } from 'lucide-react';
-import Link from 'next/link';
 
 export default function Dashboard() {
   const cards = [
@@ -50,6 +47,16 @@ export default function Dashboard() {
       title: 'Card 7',
       description: 'This is the description for card 7.',
     },
+    {
+      id: 8,
+      title: 'Card 8',
+      description: 'This is the description for card 8.',
+    },
+    {
+      id: 9,
+      title: 'Card 9',
+      description: 'This is the description for card 9.',
+    },
   ];
   return (
     <main className='flex flex-col justify-center gap-6 min-h-screen max-w-5xl mx-auto'>
@@ -66,26 +73,27 @@ export default function Dashboard() {
             <DialogContent className='sm:max-w-[425px]'>
               <DialogHeader>
                 <DialogTitle>Add Property</DialogTitle>
-                <DialogDescription>
-                  Add a New Single-Family Property
-                </DialogDescription>
               </DialogHeader>
-              <div className='flex flex-col gap-3'>
-                <div className='flex flex-col gap-1'>
-                  <Label htmlFor='address'>Address</Label>
-                  <Input id='address' />
+              <div className='flex flex-col gap-3 mt-3'>
+                <div>
+                  <Input placeholder='Street Address' />
+                </div>
+                <div className='relative flex py-5 items-center'>
+                  <div className='flex-grow border-t border-gray-400'></div>
+                  <span className='flex-shrink mx-4 text-gray-400'>Or</span>
+                  <div className='flex-grow border-t border-gray-400'></div>
                 </div>
                 <div className='flex flex-col gap-1'>
-                  <Label htmlFor='city'>City</Label>
-                  <Input id='city' />
+                  <Input placeholder='Street Address' />
                 </div>
                 <div className='flex flex-col gap-1'>
-                  <Label htmlFor='state'>State</Label>
-                  <Input id='state' />
+                  <Input placeholder='City' />
                 </div>
                 <div className='flex flex-col gap-1'>
-                  <Label htmlFor='zipcode'>Zipcode</Label>
-                  <Input id='zipcode' />
+                  <Input placeholder='State' />
+                </div>
+                <div className='flex flex-col gap-1'>
+                  <Input placeholder='Postal Code' />
                 </div>
                 <Button>Add Property</Button>
               </div>

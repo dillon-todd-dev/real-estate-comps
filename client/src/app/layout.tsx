@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang='en'>
-        <body>{children}</body>
+        <body className='min-h-screen w-full dark'>{children}</body>
       </html>
     </ClerkProvider>
   );
