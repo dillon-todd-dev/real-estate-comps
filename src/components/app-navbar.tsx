@@ -2,7 +2,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function AppNavbar() {
   return (
-    <header className='flex h-16 w-full shrink-0 items-center gap-2 border-b px-4'>
+    <header className='flex h-16 w-full shrink-0 items-center gap-2 border-b px-4 sticky top-0 z-50'>
       <SidebarTrigger />
     </header>
   );

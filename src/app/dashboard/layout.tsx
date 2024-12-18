@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <AppSidebar />
       <SidebarInset>
         <AppNavbar />
-        <section className='p-5'>{children}</section>
+        <section>{children}</section>
       </SidebarInset>
     </SidebarProvider>
   );

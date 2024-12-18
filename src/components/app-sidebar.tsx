@@ -39,10 +39,7 @@ export default function AppSidebar() {
     <Sidebar>
       <SidebarHeader className='flex justify-center items-center h-16 border-b'>
         <div>
-          <Link
-            href='/dashboard'
-            className='flex items-center gap-2 font-semibold'
-          >
+          <Link href='/dashboard' className='flex items-center gap-2 font-semibold'>
             <Package2 className='h-6 w-6' />
             <span className=''>TrueQuest</span>
           </Link>
@@ -75,9 +72,7 @@ export default function AppSidebar() {
                   </Avatar>
                   <div className='grid flex-1 text-left text-sm leading-tight'>
                     <span className='truncate font-semibold'>Dillon Todd</span>
-                    <span className='truncate text-xs'>
-                      dillontodd.dev@gmail.com
-                    </span>
+                    <span className='truncate text-xs'>dillontodd.dev@gmail.com</span>
                   </div>
                   <ChevronsUpDown className='ml-auto size-4' />
                 </SidebarMenuButton>
@@ -95,12 +90,8 @@ export default function AppSidebar() {
                       <AvatarFallback className='rounded-lg'>DT</AvatarFallback>
                     </Avatar>
                     <div className='grid flex-1 text-left text-sm leading-tight'>
-                      <span className='truncate font-semibold'>
-                        Dillon Todd
-                      </span>
-                      <span className='truncate text-xs'>
-                        dillontodd.dev@gmail.com
-                      </span>
+                      <span className='truncate font-semibold'>Dillon Todd</span>
+                      <span className='truncate text-xs'>dillontodd.dev@gmail.com</span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
