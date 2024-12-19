@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing API Key', data: null });
@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
   );
 
   const input = searchParams.get('input');
+  console.log(`input: ${input}`);
   const url = 'https://places.googleapis.com/v1/places:autocomplete';
 
   const primaryTypes = [
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
     'subpremise',
     'route',
     'street_number',
-    'landmakr',
+    'landmark',
   ];
 
   try {
