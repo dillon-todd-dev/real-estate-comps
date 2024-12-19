@@ -172,10 +172,10 @@ export default function PropertiesPage() {
         `/api/address/places?placeId=${selectedPlaceId}`
       );
       const data = await response.json();
-      // setStreet(data.data.street);
-      // setCity(data.data.city);
-      // setState(data.data.state);
-      // setPostalCode(data.data.postalCode);
+      setStreet(data.data.address.street);
+      setCity(data.data.address.city);
+      setState(data.data.address.state);
+      setPostalCode(data.data.address.postalCode);
     };
 
     fetchPlaceDetails();

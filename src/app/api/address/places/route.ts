@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
   const url = `https://places.googleapis.com/v1/places/${placeId}`;
 
   try {
-    console.log(url);
     const response = await fetch(url, {
       headers: {
         'X-Goog-Api-Key': apiKey,
@@ -32,7 +31,7 @@ export async function GET(req: NextRequest) {
     console.log(data);
 
     const dataFinderRegex = (c: string) => {
-      const regex = new RegExp(`<span class="${c}">([^,]+)<\/span>`);
+      const regex = new RegExp(`<span class="${c}">([^<]+)<\/span>`);
       const match = data.adrFormatAddress.match(regex);
       return match ? match[1] : '';
     };
@@ -43,6 +42,7 @@ export async function GET(req: NextRequest) {
     const postalCode = dataFinderRegex('postal-code');
 
     const formattedData = { street, city, state, postalCode };
+
     return NextResponse.json({ data: { address: formattedData }, error: null });
   } catch (error) {
     console.error('Error fetching place details:', error);
