@@ -10,7 +10,7 @@ export default function DashboardNavbar() {
   const { setTheme, theme } = useTheme();
 
   return (
-    <header className='justify-center items-center w-full sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-blue-300'>
+    <header className='w-full sticky top-0 z-50 border-b bg-sidebar'>
       <div className='flex h-14 items-center px-4 md:px-6'>
         <SidebarTrigger className='mr-4' />
         <div className='flex flex-1 items-center space-x-4'>

@@ -1,27 +1,6 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Bath, Bed, Building, DollarSign, Ruler } from 'lucide-react';
-import Link from 'next/link';
+import PropertyItem from '@/components/property-item';
 import { useState } from 'react';
 
 // This would typically come from a database or API
@@ -86,119 +65,80 @@ const initialProperties = [
     type: 'Townhouse',
     status: 'Under Contract',
   },
+  {
+    id: 7,
+    address: '303 Maple Dr, Someplace, USA',
+    price: 320000,
+    bedrooms: 3,
+    bathrooms: 2,
+    sqft: 1600,
+    type: 'Townhouse',
+    status: 'Under Contract',
+  },
+  {
+    id: 8,
+    address: '303 Maple Dr, Someplace, USA',
+    price: 320000,
+    bedrooms: 3,
+    bathrooms: 2,
+    sqft: 1600,
+    type: 'Townhouse',
+    status: 'Under Contract',
+  },
+  {
+    id: 9,
+    address: '303 Maple Dr, Someplace, USA',
+    price: 320000,
+    bedrooms: 3,
+    bathrooms: 2,
+    sqft: 1600,
+    type: 'Townhouse',
+    status: 'Under Contract',
+  },
+  {
+    id: 10,
+    address: '303 Maple Dr, Someplace, USA',
+    price: 320000,
+    bedrooms: 3,
+    bathrooms: 2,
+    sqft: 1600,
+    type: 'Townhouse',
+    status: 'Under Contract',
+  },
+  {
+    id: 11,
+    address: '303 Maple Dr, Someplace, USA',
+    price: 320000,
+    bedrooms: 3,
+    bathrooms: 2,
+    sqft: 1600,
+    type: 'Townhouse',
+    status: 'Under Contract',
+  },
+  {
+    id: 12,
+    address: '303 Maple Dr, Someplace, USA',
+    price: 320000,
+    bedrooms: 3,
+    bathrooms: 2,
+    sqft: 1600,
+    type: 'Townhouse',
+    status: 'Under Contract',
+  },
 ];
 
 export default function PropertiesPage() {
   const [properties, setProperties] = useState(initialProperties);
-  const [newAddress, setNewAddress] = useState('');
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const handleAddProperty = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newAddress) {
-      const newProperty = {
-        id: properties.length + 1,
-        address: newAddress,
-        price: 0,
-        bedrooms: 0,
-        bathrooms: 0,
-        sqft: 0,
-        type: 'Unknown',
-        status: 'For Sale',
-      };
-      setProperties([...properties, newProperty]);
-      setNewAddress('');
-      setIsDialogOpen(false);
-    }
-  };
 
   return (
     <div className='space-y-6'>
       <div className='flex justify-between items-center'>
         <h1 className='text-3xl font-bold'>Properties</h1>
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button>Add New Property</Button>
-          </DialogTrigger>
-          <DialogContent className='sm:max-w-[425px]'>
-            <DialogHeader>
-              <DialogTitle>Add New Property</DialogTitle>
-              <DialogDescription>
-                Enter the address of the new property here. You can fill in
-                additional details later.
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handleAddProperty}>
-              <div className='grid gap-4 py-4'>
-                <div className='grid grid-cols-4 items-center gap-4'>
-                  <Label htmlFor='address' className='text-right'>
-                    Address
-                  </Label>
-                  <Input
-                    id='address'
-                    value={newAddress}
-                    onChange={(e) => setNewAddress(e.target.value)}
-                    className='col-span-3'
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type='submit'>Add Property</Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <p>Add New Property</p>
       </div>
       <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
         {properties.map((property) => (
-          <Card key={property.id}>
-            <CardHeader>
-              <CardTitle>{property.address}</CardTitle>
-              <Badge
-                variant={
-                  property.status === 'For Sale' ? 'default' : 'secondary'
-                }
-              >
-                {property.status}
-              </Badge>
-            </CardHeader>
-            <CardContent>
-              <div className='grid grid-cols-2 gap-4'>
-                <div className='flex items-center'>
-                  <DollarSign className='h-4 w-4 mr-2 text-muted-foreground' />
-                  <span className='font-semibold'>
-                    ${property.price.toLocaleString()}
-                  </span>
-                </div>
-                <div className='flex items-center'>
-                  <Building className='h-4 w-4 mr-2 text-muted-foreground' />
-                  <span>{property.type}</span>
-                </div>
-                <div className='flex items-center'>
-                  <Bed className='h-4 w-4 mr-2 text-muted-foreground' />
-                  <span>{property.bedrooms} Beds</span>
-                </div>
-                <div className='flex items-center'>
-                  <Bath className='h-4 w-4 mr-2 text-muted-foreground' />
-                  <span>{property.bathrooms} Baths</span>
-                </div>
-                <div className='flex items-center col-span-2'>
-                  <Ruler className='h-4 w-4 mr-2 text-muted-foreground' />
-                  <span>{property.sqft.toLocaleString()} sqft</span>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Link
-                href={`/dashboard/properties/${property.id}`}
-                className='w-full'
-              >
-                <Button variant='outline' className='w-full'>
-                  View Details
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
+          <PropertyItem key={property.id} property={property} />
         ))}
       </div>
     </div>

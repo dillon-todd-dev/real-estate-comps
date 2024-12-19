@@ -27,7 +27,7 @@ export default function DashboardSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader>
+      <SidebarHeader className='border-b'>
         <Link href='/dashboard' className='flex items-center gap-2 px-4 py-2'>
           <Building className='h-6 w-6' />
           <span className='font-bold'>TrueQuest</span>
