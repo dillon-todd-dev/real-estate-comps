@@ -10,18 +10,22 @@ export async function addProperty(formData: FormData): Promise<void> {
   const state = formData.get('state') as string;
   const postalCode = formData.get('postalCode') as string;
 
-  const results = await db
-    .insert(Properties)
-    .values({
-      street,
-      city,
-      state,
-      postalCode,
-    })
-    .returning({
-      id: Properties.id,
-    });
+  try {
+    const results = await db
+      .insert(Properties)
+      .values({
+        street,
+        city,
+        state,
+        postalCode,
+      })
+      .returning({
+        id: Properties.id,
+      });
 
-  const { id } = results[0];
-  redirect(`/dashboard/properties/${id}`);
+    const { id } = results[0];
+    redirect(`/dashboard/properties/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
 }

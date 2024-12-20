@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import useDebounce from '@/hooks/use-debounce';
 import useSWR from 'swr';
 import { fetcher } from '@/lib/fetcher';
+import SubmitButton from '@/components/SubmitButton';
 
 type GooglePrediction = {
   placePrediction: {
@@ -141,7 +142,7 @@ export default function AddProperty() {
             </div>
           </div>
           <DialogFooter>
-            <Button type='submit'>Add Property</Button>
+            <SubmitButton />
           </DialogFooter>
         </form>
       </DialogContent>
