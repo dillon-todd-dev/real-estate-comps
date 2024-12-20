@@ -1,0 +1,1 @@
+ALTER TABLE "properties" ALTER COLUMN "postal_code" SET DATA TYPE varchar(10);

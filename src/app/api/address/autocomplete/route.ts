@@ -12,7 +12,10 @@ export async function GET(req: NextRequest) {
   );
 
   const input = searchParams.get('input');
-  console.log(`input: ${input}`);
+  if (!input) {
+    return NextResponse.json({ error: 'Missing input', data: null });
+  }
+
   const url = 'https://places.googleapis.com/v1/places:autocomplete';
 
   const primaryTypes = [
