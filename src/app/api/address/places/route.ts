@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing API Key', data: null });
   }
 
   const { searchParams } = new URL(
     req.url,
-    `http://${req.headers?.get('host')}`
+    `http://${req.headers?.get('host')}`,
   );
 
   const placeId = searchParams.get('placeId');

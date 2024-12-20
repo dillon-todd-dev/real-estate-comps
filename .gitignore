@@ -20,6 +20,9 @@
 # production
 /build
 
+# webstorm
+.idea
+
 # misc
 .DS_Store
 *.pem
