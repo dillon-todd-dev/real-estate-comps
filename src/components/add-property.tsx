@@ -44,10 +44,12 @@ export default function AddProperty() {
     if (!selectedPlaceId) return;
 
     const fetchPlaceDetails = async () => {
+      console.log('fetchPlaceDetails', selectedPlaceId);
       const response = await fetch(
         `/api/address/places?placeId=${selectedPlaceId}`,
       );
       const data = await response.json();
+      console.log('data');
       setStreet(data.data.address.street);
       setCity(data.data.address.city);
       setState(data.data.address.state);
@@ -77,7 +79,10 @@ export default function AddProperty() {
       <DialogTrigger asChild>
         <Button>Add New Property</Button>
       </DialogTrigger>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent
+        className='sm:max-w-[425px]'
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>Add New Property</DialogTitle>
           <DialogDescription>
