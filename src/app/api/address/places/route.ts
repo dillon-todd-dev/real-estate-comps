@@ -29,18 +29,33 @@ export async function GET(req: NextRequest) {
 
   const data = await response.json();
 
-  const dataFinderRegex = (c: string) => {
-    const regex = new RegExp(`<span class="${c}">([^<]+)<\/span>`);
-    const match = data.adrFormatAddress.match(regex);
-    return match ? match[1] : '';
+  const findAddressPart = (str: string) => {
+    const addressPart = data.addressComponents.find((addressComponent: any) => {
+      if (addressComponent.types.includes(str)) {
+        return addressComponent;
+      }
+    });
+
+    return addressPart?.longText ?? '';
   };
 
-  const street = dataFinderRegex('street-address');
-  const city = dataFinderRegex('locality');
-  const state = dataFinderRegex('region');
-  const postalCode = dataFinderRegex('postal-code');
+  const streetNum = findAddressPart('street_number');
+  const streetName = findAddressPart('route');
+  const city = findAddressPart('locality');
+  const state = findAddressPart('administrative_area_level_1');
+  const postalCodePrefix = findAddressPart('postal_code');
+  const postalCodeSuffix = findAddressPart('postal_code_suffix');
 
-  const formattedData = { street, city, state, postalCode };
+  const postalCode = postalCodeSuffix
+    ? `${postalCodePrefix}-${postalCodeSuffix}`
+    : postalCodePrefix;
+
+  const formattedData = {
+    street: `${streetNum} ${streetName}`,
+    city,
+    state,
+    postalCode,
+  };
 
   return NextResponse.json({ data: { address: formattedData }, error: null });
 }

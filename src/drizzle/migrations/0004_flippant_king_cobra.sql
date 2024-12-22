@@ -1,0 +1,1 @@
+ALTER TABLE "properties" ALTER COLUMN "created_at" SET NOT NULL;

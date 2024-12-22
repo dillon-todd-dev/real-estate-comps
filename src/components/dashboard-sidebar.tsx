@@ -11,8 +11,16 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { Building, Home, PieChart, Settings, Users } from 'lucide-react';
+import {
+  Building,
+  Home,
+  LogOut,
+  PieChart,
+  Settings,
+  Users,
+} from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const menuItems = [
   { icon: Home, label: 'Dashboard', href: '/dashboard' },
@@ -47,17 +55,11 @@ export default function DashboardSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link href='/dashboard/profile'>
-                <Users className='h-4 w-4' />
-                <span>Profile</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+      <SidebarFooter className='border-t p-6'>
+        <Button variant='outline' className='w-full'>
+          <LogOut className='mr-1 h-4 w-4' />
+          Logout
+        </Button>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
