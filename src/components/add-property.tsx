@@ -89,7 +89,12 @@ export default function AddProperty() {
             Search for an address or enter the details manually.
           </DialogDescription>
         </DialogHeader>
-        <form action={addProperty} onSubmit={() => setIsDialogOpen(false)}>
+        <form
+          action={addProperty}
+          onSubmit={() => {
+            setIsDialogOpen(false);
+          }}
+        >
           <div className='space-y-4 py-4'>
             <div className='space-y-2'>
               <Label>Search Address</Label>

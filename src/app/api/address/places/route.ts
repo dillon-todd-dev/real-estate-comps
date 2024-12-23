@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const response = await fetch(url, {
     headers: {
       'X-Goog-Api-Key': apiKey,
-      'X-Goog-FieldMask': '*',
+      'X-Goog-FieldMask': 'id,name,attributions,photos,addressComponents',
       'Content-Type': 'application/json',
     },
   });
@@ -28,6 +28,8 @@ export async function GET(req: NextRequest) {
   }
 
   const data = await response.json();
+
+  console.log(data);
 
   const findAddressPart = (str: string) => {
     const addressPart = data.addressComponents.find((addressComponent: any) => {

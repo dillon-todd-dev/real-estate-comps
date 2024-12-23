@@ -2,7 +2,7 @@
 
 import { db } from '@/drizzle/db';
 import { Properties } from '@/drizzle/schema/properties';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 export async function addProperty(formData: FormData): Promise<void> {
   const street = formData.get('street') as string;
@@ -11,20 +11,13 @@ export async function addProperty(formData: FormData): Promise<void> {
   const postalCode = formData.get('postalCode') as string;
 
   try {
-    const results = await db
-      .insert(Properties)
-      .values({
-        street,
-        city,
-        state,
-        postalCode,
-      })
-      .returning({
-        id: Properties.id,
-      });
-
-    const { id } = results[0];
-    redirect(`/dashboard/properties/${id}`);
+    await db.insert(Properties).values({
+      street,
+      city,
+      state,
+      postalCode,
+    });
+    revalidatePath('/dashboard/properties');
   } catch (error) {
     console.error(error);
   }

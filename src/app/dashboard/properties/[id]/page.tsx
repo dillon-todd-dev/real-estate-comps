@@ -22,7 +22,6 @@ export default async function PropertyDetailsPage({
 
   const property = result[0];
 
-  console.log(result);
   return (
     <div className='space-y-6'>
       <div className='flex items-center justify-between'>
