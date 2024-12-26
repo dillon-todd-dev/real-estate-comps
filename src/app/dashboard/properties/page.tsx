@@ -3,14 +3,6 @@ import { db } from '@/drizzle/db';
 import { Properties } from '@/drizzle/schema/properties';
 import PropertyItem from '@/components/property-item';
 import { count, desc } from 'drizzle-orm';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
 import { PaginationWithLinks } from '@/components/ui/pagination-with-links';
 
 const PROPERTIES_PER_PAGE = 6;
@@ -20,7 +12,8 @@ export default async function PropertiesPage({
 }: {
   searchParams: { page: string | undefined };
 }) {
-  const currentPage = searchParams?.page ? parseInt(searchParams.page) : 1;
+  const { page } = await searchParams;
+  const currentPage = page ? parseInt(page) : 1;
   const offset = PROPERTIES_PER_PAGE * (currentPage - 1);
 
   const fetchNumProperties = db.select({ count: count() }).from(Properties);
@@ -36,8 +29,6 @@ export default async function PropertiesPage({
     fetchNumProperties,
     fetchProperties,
   ]);
-
-  console.log(numProperties);
 
   return (
     <div className='space-y-6'>

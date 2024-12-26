@@ -11,10 +11,11 @@ export default async function PropertyDetailsPage({
 }: {
   params: { id: string };
 }) {
+  const { id } = await params;
   const result = await db
     .select()
     .from(Properties)
-    .where(eq(Properties.id, params.id));
+    .where(eq(Properties.id, id));
 
   if (result.length === 0) {
     notFound();
