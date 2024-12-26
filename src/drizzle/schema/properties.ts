@@ -1,4 +1,6 @@
 import { pgTable, uuid, varchar, timestamp } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { Evaluations } from '@/drizzle/schema/evaluations';
 
 export const Properties = pgTable('properties', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -17,3 +19,7 @@ export const Properties = pgTable('properties', {
     withTimezone: true,
   }).$onUpdateFn(() => new Date()),
 });
+
+export const PropertiesRelations = relations(Properties, ({ many }) => ({
+  evaluations: many(Evaluations),
+}));

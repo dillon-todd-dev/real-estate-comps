@@ -4,11 +4,23 @@ import { Button } from '@/components/ui/button';
 import { Properties } from '@/drizzle/schema/properties';
 import Image from 'next/image';
 
-export default function PropertyItem({
+export default async function PropertyItem({
   property,
 }: {
   property: typeof Properties.$inferSelect;
 }) {
+  const response = await fetch(
+    `https://zillow56.p.rapidapi.com/search_address?address=17375%20Merigold%20Heights%20Drive%20Conroe%20Texas%2077302`,
+    {
+      headers: {
+        'x-rapidapi-host': 'zillow56.p.rapidapi.com',
+        'x-rapidapi-key': process.env.RAPID_API_KEY!,
+      },
+    },
+  );
+
+  const data = await response.json();
+  console.log(data);
   return (
     <Card className='overflow-hidden hover:shadow-lg transition duration-300'>
       <div className='relative w-full h-64'>
